@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	public LayerMask crouchLayerMask;
+
+	public static Vector3 position = Vector3.zero;
+	public static Transform tr;
 	new Camera camera;
 	float xRotation;
 	float yRotation;
@@ -11,14 +15,15 @@ public class Player : MonoBehaviour {
 	float cameraHeightReference;
 	Vector2 smoothRotation;
 	Vector2 rotationSpeedReference;
-	public float mouseSensitivity = 5f;
+	public static float mouseSensitivity = 3f;
 
-	new Rigidbody rigidbody;
 	public float walkSpeed = 5f;
 	public float runSpeed = 8f;
 	public float jumpHeight = 5f;
 	bool running = false;
+	Vector3 moveReference;
 
+	new Rigidbody rigidbody;
 	new CapsuleCollider collider;
 	public float crouchSpeed;
 	public float crouchHeight;
@@ -26,10 +31,19 @@ public class Player : MonoBehaviour {
 	float heightReference;
 	bool crouching = false;
 
-	public GameObject currentItem = null;
-	bool itemGrabbed = false;
+	public static GameObject currentItem = null;
+	public static bool itemGrabbed = false;
+	Vector3 itemGrabbedReference;
 
 	[HideInInspector]
+	
+
+	public static Sprite[] crosshairs;
+
+	public static bool canMoveCamera = true;
+
+	public static Vector2 mouseInput = Vector2.zero;
+
 	public static Vector3 movementInput = Vector3.zero;
 
 	void Start()
@@ -41,11 +55,12 @@ public class Player : MonoBehaviour {
 		yRotation = transform.rotation.y;
 		smoothRotation = new Vector2(xRotation, yRotation);
 
-		rigidbody = GetComponent<Rigidbody>();
 		collider = GetComponent<CapsuleCollider>();
+		rigidbody = GetComponent<Rigidbody>();
+		tr = transform;
 
 		Cursor.lockState = CursorLockMode.Locked;
-
+		LoadCrosshairs();
 	}
 
 	void Update()
@@ -59,16 +74,23 @@ public class Player : MonoBehaviour {
 
 		running = Input.GetButton("Run");
 
-		bool canStand = !Physics.CheckSphere(transform.position + (Vector3.up * (normalHeight - .3f)), .25f, ~(1 << 10));
+		bool canStand = !Physics.CheckSphere(transform.position + (Vector3.up * (normalHeight - .4f)), .25f, crouchLayerMask);
 		crouching = Input.GetButton("Crouch") || !canStand;
+
+		position = transform.position;
 		
+		
+		if (!itemGrabbed) GrabControl();
+		else if (itemGrabbed && Input.GetButtonDown("Fire1") && currentItem.GetComponent<Throwable>().throwing) currentItem.GetComponent<Throwable>().Launch();
+		else if (itemGrabbed && Input.GetButtonDown("Fire1") && !currentItem.GetComponent<Throwable>().throwing) currentItem.GetComponent<Throwable>().GetDropped();
+
+		GetInput();
 	}
 
 	void FixedUpdate()
 	{
 		MovementControl();
-		CameraControl();
-		if (!itemGrabbed) GrabControl();
+		if (canMoveCamera) CameraControl();
 		CrouchControl();
 	}
 
@@ -86,37 +108,54 @@ public class Player : MonoBehaviour {
 		int layerMask = (1 << 9);
 		RaycastHit hit;
 
-		if(Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 2f, layerMask)){
+
+		if(Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 2f, layerMask) && !itemGrabbed){
 			if (!currentItem)
 			{
 				currentItem = hit.collider.gameObject;
+				SetCrosshair(1);
 			}
 		} else {
-			if (currentItem) currentItem = null;
+			if (currentItem) {
+				currentItem = null;
+				SetCrosshair(0);
+			}
 		}
 
 		if(currentItem && !itemGrabbed && Input.GetButtonDown("Fire1")){
-			itemGrabbed = true;
-		}
-
-		if(itemGrabbed){
-			GameObject.Destroy(currentItem);
-			currentItem = null;
-			itemGrabbed = false;
+			print(currentItem);
+			currentItem.GetComponent<Throwable>().GetPickedUp();
 		}
 	}
 
-	void MovementControl(){
+	void LoadCrosshairs(){
+		crosshairs = new Sprite[3];
+		crosshairs[0] = Resources.Load<Sprite>("textures/crosshair/normal");
+		crosshairs[1] = Resources.Load<Sprite>("textures/crosshair/grab");
+		crosshairs[2] = Resources.Load<Sprite>("textures/crosshair/nothing");
+	}
+
+	void GetInput(){
+		mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 		movementInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+	}
+
+	public static void SetCrosshair(int crs){
+		HudControl.SetCrosshair(crosshairs[crs]);
+	}
+
+	void MovementControl(){
+		//if (crouching) movementInput *= walkSpeed / 3;	
 		movementInput *= running ? runSpeed : walkSpeed;
 
+		collider.material.dynamicFriction = GroundCollider.grounded ? 0.6f : 0f;
+		collider.material.staticFriction = GroundCollider.grounded ? 0.6f : 0f;
+
 		rigidbody.MovePosition(rigidbody.position + transform.TransformDirection(movementInput) * Time.fixedDeltaTime);
-		
 	}
 
 	void CameraControl(){
 
-		Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 		mouseInput *= mouseSensitivity * (Time.fixedDeltaTime * 60);
 		xRotation += -mouseInput.y;
 		yRotation += mouseInput.x;
@@ -136,16 +175,9 @@ public class Player : MonoBehaviour {
 	}
 
 	public static class AppHelper{
-
-		#if UNITY_WEBPLAYER
-			public static string webplayerQuitURL = "http//google.com";
-		#endif
-
 		public static void Quit(){
 			#if UNITY_EDITOR
 				UnityEditor.EditorApplication.isPlaying = false;
-			#elif UNITY_WEBPLAYER
-				Application.OpenURL(webplayerQuitURL);
 			#else
 				Application.Quit();
 			#endif

@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: 3c4ea16f77d03214eb69860c675c011d
+timeCreated: 1527455009
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: bar_reader
+    100002: bar_reader_cloth
+    100004: building
+    100006: Camera
+    100008: cash_casing
+    100010: cash_door
+    100012: cash_register
+    100014: chair
+    100016: //RootNode
+    100018: counter
+    100020: fridge
+    100022: fridge_door
+    100024: lighter_holder
+    100026: monitor
+    100028: monitor_arm
+    100030: player_placeholder
+    100032: Point
+    100034: product_holder
+    100036: slide_door
+    100038: Sun
+    100040: wall_product_holder
+    400000: bar_reader
+    400002: bar_reader_cloth
+    400004: building
+    400006: Camera
+    400008: cash_casing
+    400010: cash_door
+    400012: cash_register
+    400014: chair
+    400016: //RootNode
+    400018: counter
+    400020: fridge
+    400022: fridge_door
+    400024: lighter_holder
+    400026: monitor
+    400028: monitor_arm
+    400030: player_placeholder
+    400032: Point
+    400034: product_holder
+    400036: slide_door
+    400038: Sun
+    400040: wall_product_holder
+    2300000: bar_reader
+    2300002: bar_reader_cloth
+    2300004: building
+    2300006: cash_casing
+    2300008: cash_door
+    2300010: cash_register
+    2300012: chair
+    2300014: counter
+    2300016: fridge
+    2300018: fridge_door
+    2300020: lighter_holder
+    2300022: monitor
+    2300024: monitor_arm
+    2300026: player_placeholder
+    2300028: product_holder
+    2300030: slide_door
+    2300032: wall_product_holder
+    3300000: bar_reader
+    3300002: bar_reader_cloth
+    3300004: building
+    3300006: cash_casing
+    3300008: cash_door
+    3300010: cash_register
+    3300012: chair
+    3300014: counter
+    3300016: fridge
+    3300018: fridge_door
+    3300020: lighter_holder
+    3300022: monitor
+    3300024: monitor_arm
+    3300026: player_placeholder
+    3300028: product_holder
+    3300030: slide_door
+    3300032: wall_product_holder
+    4300000: product_holder
+    4300002: fridge_door
+    4300004: fridge
+    4300006: chair
+    4300008: cash_door
+    4300010: cash_casing
+    4300012: monitor
+    4300014: monitor_arm
+    4300016: cash_register
+    4300018: wall_product_holder
+    4300020: lighter_holder
+    4300022: bar_reader
+    4300024: player_placeholder
+    4300026: counter
+    4300028: bar_reader_cloth
+    4300030: slide_door
+    4300032: building
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
