@@ -127,7 +127,7 @@ public class Throwable : MonoBehaviour {
 		isGrabbed = false;
 		gameObject.layer = 9;
 		Player.itemGrabbed = false;
-		rb.isKinematic = false;
+		//rb.isKinematic = false;
 		Player.currentItem = null;
 		Player.SetCrosshair(0);
 	}
@@ -136,7 +136,7 @@ public class Throwable : MonoBehaviour {
 		Player.SetCrosshair(2);
 		Player.itemGrabbed = true;
 		gameObject.layer = 12;
-		rb.isKinematic = true;
+		//rb.isKinematic = true;
 		rb.useGravity = false;
 		rb.freezeRotation = true;
 		isGrabbed = true;
